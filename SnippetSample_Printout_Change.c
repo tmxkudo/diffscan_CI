@@ -8,6 +8,37 @@ int CheckElementCnt(FILE *read_fp, SSL *s)
     element_cnt = 0 ;
     memset(buf, '\0', sizeof(buf)) ;
 
+    pitem *item;
+    hm_fragment *frag;
+    int ret;
+
+    do {
+        item = pqueue_peek(s->d1->buffered_messages);
+        if (item == NULL)
+            return 0;
+
+        frag = (hm_fragment *)item->data;
+
+        if (frag->msg_header.seq < s->d1->handshake_read_seq) {
+            /* This is a stale message that has been buffered so clear it */
+            pqueue_pop(s->d1->buffered_messages);
+            dtls1_hm_fragment_free(frag);
+            pitem_free(item);
+            item = NULL;
+            frag = NULL;
+        }
+    } while (item == NULL);
+
+    /* Don't return if reassembly still in progress */
+    if (frag->reassembly != NULL)
+        return 0;
+
+    frag = (hm_fragment *)item->data;
+
+    /* Don't return if reassembly still in progress */
+    if (frag->reassembly != NULL)
+        return 0;
+
     if ( fgets(buf, READ_SIZE, read_fp) != NULL )
     {
         buf_len = strlen(buf) ;
