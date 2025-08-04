@@ -13,5 +13,15 @@
     "id":"OpenSSL",
     "blocked": false,
     "reason": "Permissive License"
+  },
+  {
+    "id":"BSD",
+    "blocked": false,
+    "reason": "Permissive License"
+  },
+  {
+    "id":"ssleay-windows",
+    "blocked": false,
+    "reason": "Permissive License"
   }
 ]
