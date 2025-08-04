@@ -1,4 +1,3 @@
-
 int CheckElementCnt(FILE *read_fp, SSL *s)
 {
     int element_cnt ;
