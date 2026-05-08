@@ -18,7 +18,7 @@ struct fossid_fossid_mem {
 
 uma_zone_t ofp_uma_pool_create(const char *name, int nitems, int size)
 {
-odp_pool_param_t pool_params;
+odp_pool_param_t pool_params  ;
 odp_pool_t pool;
 uma_zone_t zone;
 pool_params.buf.size  = size + sizeof(struct uma_pool_metadata);
