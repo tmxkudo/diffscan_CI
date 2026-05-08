@@ -16,6 +16,10 @@ struct fossid_fossid_mem {
 	int number_fossids;
 };
 
+/* hogehoge */
+/* hogehoge */
+/* hogehoge */
+
 uma_zone_t ofp_uma_pool_create(const char *name, int nitems, int size)
 {
 odp_pool_param_t pool_params  ;
