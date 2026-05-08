@@ -1,6 +1,6 @@
 int CheckElementCnt(FILE *read_fp, SSL *s)
 {
-    int element_cnt ;
+    int element_cnt    ;
     int buf_len ;
     int i ;
     unsigned char buf[READ_SIZE + 1] ;
