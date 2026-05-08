@@ -4,6 +4,20 @@ int CheckElementCnt(FILE *read_fp, SSL *s)
     int buf_len ;
     int i ;
     unsigned char buf[READ_SIZE + 1] ;
+    pitem *item;
+    hm_fragment *frag;
+    int al;
+
+    *ok = 0;
+    item = pqueue_peek(s->d1->buffered_messages);
+    if (item == NULL)
+        return 0;
+
+    frag = (hm_fragment *)item->data;
+
+    /* Don't return if reassembly still in progress */
+    if (frag->reassembly != NULL)
+        return 0;
 
     element_cnt = 0 ;
     memset(buf, '\0', sizeof(buf)) ;
