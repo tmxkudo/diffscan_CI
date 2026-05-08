@@ -16,7 +16,7 @@ struct fossid_fossid_mem {
 	int number_fossids;
 };
 
-    pitem *item;
+    pitem *item  ;
     hm_fragment *frag;
     int ret;
 
