@@ -102,22 +102,15 @@ static int tls_decrypt_ticket(SSL *s, const unsigned char *etick,
     ctx = NULL;
     p = sdec;
 
-    do {
-        item = pqueue_peek(s->d1->buffered_messages);
-        if (item == NULL)
-            return 0;
+    hm_fragment *frag;
+    int al;
 
-        frag = (hm_fragment *)item->data;
+    *ok = 0;
+    item = pqueue_peek(s->d1->buffered_messages);
+    if (item == NULL)
+        return 0;
 
-        if (frag->msg_header.seq < s->d1->handshake_read_seq) {
-            /* This is a stale message that has been buffered so clear it */
-            pqueue_pop(s->d1->buffered_messages);
-            dtls1_hm_fragment_free(frag);
-            pitem_free(item);
-            item = NULL;
-            frag = NULL;
-        }
-    } while (item == NULL);
+    frag = (hm_fragment *)item->data;
 
     /* Don't return if reassembly still in progress */
     if (frag->reassembly != NULL)
