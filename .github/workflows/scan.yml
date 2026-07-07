@@ -18,18 +18,16 @@ jobs:
     - name: Scan by Cloning from Git
       run: |
         docker run ghcr.io/fossid-ab/workbench-agent-ce:latest \
+        scan-git \
         --api-url ${{ env.WORKBENCH_URL }} \
         --api-user ${{ env.WORKBENCH_USER }} \
         --api-token ${{ env.WORKBENCH_TOKEN }} \
-        scan-git \
         --project-name $GITHUB_REPOSITORY_OWNER \
         --scan-name $GITHUB_REPOSITORY \
         --git-url $GITHUB_SERVER_URL/$GITHUB_REPOSITORY \
         --git-branch $GITHUB_REF_NAME \
         --git-depth 1 \
-        --id-reuse \
-        --id-reuse-type project \
-        --id-reuse-source $GITHUB_REPOSITORY_OWNER \
+        --reuse-project-ids $GITHUB_REPOSITORY_OWNER \
         --run-dependency-analysis \
         --delta-scan \
         --no-wait
