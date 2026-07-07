@@ -27,9 +27,8 @@ jobs:
         run: |
           fossid \
           diffscan \
-          --host ${{ secrets.FOSSID_HOST }} \
-          --token ${{ secrets.FOSSID_TOKEN }} \
-          --license-mode new \
+          --fossid-host ${{ secrets.FOSSID_HOST }} \
+          --fossid-token ${{ secrets.FOSSID_TOKEN }} \
           --vsf-mode new \
           --format github \
           --fail
