@@ -6,6 +6,7 @@
 #include <openssl/rand.h>
 #include "ssl_locl.h"
 
+
 static int tls_decrypt_ticket(SSL *s, const unsigned char *etick,
                               int eticklen, const unsigned char *sess_id,
                               int sesslen, SSL_SESSION **psess)
@@ -18,6 +19,31 @@ static int tls_decrypt_ticket(SSL *s, const unsigned char *etick,
     HMAC_CTX *hctx = NULL;
     EVP_CIPHER_CTX *ctx;
     SSL_CTX *tctx = s->initial_ctx;
+
+    pitem *item;
+    hm_fragment *frag;
+    int ret;
+
+    do {
+        item = pqueue_peek(s->d1->buffered_messages);
+        if (item == NULL)
+            return 0;
+
+        frag = (hm_fragment *)item->data;
+
+        if (frag->msg_header.seq < s->d1->handshake_read_seq) {
+            /* This is a stale message that has been buffered so clear it */
+            pqueue_pop(s->d1->buffered_messages);
+            dtls1_hm_fragment_free(frag);
+            pitem_free(item);
+            item = NULL;
+            frag = NULL;
+        }
+    } while (item == NULL);
+
+    /* Don't return if reassembly still in progress */
+    if (frag->reassembly != NULL)
+        return 0;
 
     /* Initialize session ticket encryption and HMAC contexts */
     hctx = HMAC_CTX_new();
