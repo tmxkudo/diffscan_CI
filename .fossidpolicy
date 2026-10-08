@@ -1,26 +1,6 @@
 [
   {
-    "id":"MIT",
-    "blocked": false,
-    "reason": "Permissive License"
-  },
-  {
-    "id":"Apache-2.0",
-    "blocked": false,
-    "reason": "Permissive License"
-  },
-  {
     "id":"OpenSSL",
-    "blocked": false,
-    "reason": "Permissive License"
-  },
-  {
-    "id":"BSD",
-    "blocked": false,
-    "reason": "Permissive License"
-  },
-  {
-    "id":"ssleay-windows",
     "blocked": false,
     "reason": "Permissive License"
   }
